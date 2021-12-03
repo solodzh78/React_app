@@ -29,13 +29,26 @@ const TrashButton = styled.button`
   background-repeat: no-repeat;
 `;
 
+const ToppingsStyled = styled.div`
+  font-size: 14px;
+  line-height: 16px;
+  color: #9A9A9A;
+  margin-top: -16px;
+`;
+
 export const OrderListItem = ({ order }) => {
+
   return(
-    <OrderItemStyled>
-      <ItemName>{order.name}</ItemName>
-      <span>{order.count}</span>
-      <ItemPrice>{formatCurrency(totalPriceItems(order))}</ItemPrice>
-      <TrashButton/>
-    </OrderItemStyled>
+    <>
+      <OrderItemStyled>
+        <ItemName>{order.name}</ItemName>
+        <span>{order.count}</span>
+        <ItemPrice>{formatCurrency(totalPriceItems(order))}</ItemPrice>
+        <TrashButton/>
+      </OrderItemStyled>
+      {order.topping && <ToppingsStyled>
+        {order.topping.filter(item => item.checked).map(item => item.name).join(', ')}
+      </ToppingsStyled>}
+    </>
   );
 }
