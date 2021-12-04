@@ -5,7 +5,7 @@ import { GlobalStyle } from './Components/Style/GlobalStyle';
 import { ModalItem } from './Components/Modal/ModalItem';
 import { Order } from './Components/Order/Order';
 import { useOpenItem } from './Components/Hooks/useOpenItem';
-import { useOrders } from './Components/Hooks/useOrrders';
+import { useOrders } from './Components/Hooks/useOrders';
 
 function App() {
 
@@ -16,7 +16,7 @@ function App() {
     <>
       <GlobalStyle/>
       <NavBar/>
-      <Order {...orders}/>
+      <Order {...orders} {...openItem}/>
       <Menu {...openItem}/>
       {openItem.openItem && <ModalItem {...openItem} {...orders}/> }
     </>

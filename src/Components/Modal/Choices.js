@@ -17,19 +17,20 @@ const ChoiceLabel = styled.label`
   display: block;
 `;
 
-export function Choices({ choice, changeChoices }) {
+export function Choices({ choice, changeChoices, openItem }) {
   return(
     <>
       <h3>Выбирайте:</h3>
       <ChoiceWrap>
-        {choice.map((item, i) => (
+        {openItem.choices.map((item, i) => (
           <ChoiceLabel key={i}>
             <ChoiceRadio 
               type="radio" 
               name="choices"
+              value={item}
               checked={choice === item} 
               onChange={changeChoices}/>
-            {item.name}
+            {item}
           </ChoiceLabel>
         ))}
       </ChoiceWrap>

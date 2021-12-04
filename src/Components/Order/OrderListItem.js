@@ -36,18 +36,28 @@ const ToppingsStyled = styled.div`
   margin-top: -16px;
 `;
 
-export const OrderListItem = ({ order }) => {
+export const OrderListItem = ({ order, orders, setOrders, setOpenItem, index }) => {
+
+  const deleteOrder = () => { setOrders(orders.filter(item => item !== order)) };
+
+  const orderOnclick = (e) => {
+    e.target.tagName !== "BUTTON" && setOpenItem({ ...order, index, edit: true });
+  }
+
+  const toppingSum = order.topping ? 
+    order.topping.filter(item => item.checked).map(item => item.name).join(', ') : 
+    null;
 
   return(
     <>
-      <OrderItemStyled>
-        <ItemName>{order.name}</ItemName>
+      <OrderItemStyled onClick={orderOnclick}>
+        <ItemName>{order.name} {order.choice}</ItemName>
         <span>{order.count}</span>
         <ItemPrice>{formatCurrency(totalPriceItems(order))}</ItemPrice>
-        <TrashButton/>
+        <TrashButton onClick={deleteOrder}/>
       </OrderItemStyled>
-      {order.topping && <ToppingsStyled>
-        {order.topping.filter(item => item.checked).map(item => item.name).join(', ')}
+      {toppingSum && <ToppingsStyled>
+        {toppingSum}
       </ToppingsStyled>}
     </>
   );

@@ -59,7 +59,7 @@ const TotalPriceItem = styled.div`
 
 export const ModalItem = ({ openItem, setOpenItem, orders, setOrders}) => {
 
-  const counter = useCount();
+  const counter = useCount(openItem);
   const toppings = useToppins(openItem);
   const choices = useChoices(openItem);
   
@@ -69,7 +69,14 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders}) => {
     ...openItem,
     count: counter.count,
     topping: toppings.toppings,
-    choices: choices.choice,
+    choice: choices.choice,
+  };
+
+  const editOrder = () => {
+    const newOrders = [...orders];
+    newOrders[openItem.index] = order;
+    setOrders(newOrders);
+    setOpenItem(null);
   };
 
   const addToOrder = e => {
@@ -93,7 +100,9 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders}) => {
             <span>Цена:</span>
             <span>{formatCurrency(totalPriceItems(order))}</span>
           </TotalPriceItem>
-          <ButtonCheckout onClick={addToOrder}>Добавить</ButtonCheckout>
+          <ButtonCheckout onClick={openItem.edit ? editOrder : addToOrder}>
+            {openItem.edit ? "Редактировать" : "Добавить"}
+          </ButtonCheckout>
         </Content>
       </Modal>
     </Overlay>

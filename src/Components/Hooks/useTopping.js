@@ -3,7 +3,10 @@ import { useState } from "react";
 const getTopping = toppings => ( !toppings ? null : toppings.map(item => ({ name: item, checked: false })) );
 
 export function useToppins(openItem) {
-  const [toppings, setToppings] = useState(getTopping(openItem.toppings));
+
+  const readyTopping = openItem.topping ? openItem.topping : getTopping(openItem.toppings);
+
+  const [toppings, setToppings] = useState(readyTopping);
 
   const checkToppings = index => {
     setToppings(toppings.map((item, i) => {
