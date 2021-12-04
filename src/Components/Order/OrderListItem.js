@@ -4,7 +4,10 @@ import { totalPriceItems, formatCurrency } from '../Functions/secondaryFunctions
 
 const OrderItemStyled = styled.li`
   display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
   margin: 15px 0;
+  cursor: pointer;
 `;
 
 const ItemName = styled.span`
@@ -12,8 +15,7 @@ const ItemName = styled.span`
 `;
 
 const ItemPrice = styled.span`
-  margin-left: 20px;
-  margin-right: 10px;
+  margin-left: 10px;
   min-width: 65px;
   text-align: right;
 `;
@@ -30,10 +32,16 @@ const TrashButton = styled.button`
 `;
 
 const ToppingsStyled = styled.div`
+  width: 100%;
   font-size: 14px;
   line-height: 16px;
   color: #9A9A9A;
-  margin-top: -16px;
+`;
+
+const Item2Part = styled.div`
+  width: 130px;
+  display: flex;
+  justify-content: space-between;
 `;
 
 export const OrderListItem = ({ order, orders, setOrders, setOpenItem, index }) => {
@@ -51,14 +59,16 @@ export const OrderListItem = ({ order, orders, setOrders, setOpenItem, index }) 
   return(
     <>
       <OrderItemStyled onClick={orderOnclick}>
-        <ItemName>{order.name} {order.choice}</ItemName>
-        <span>{order.count}</span>
+        <Item2Part>
+          <ItemName>{order.name} {order.choice}</ItemName>
+          <span>{order.count}</span>
+        </Item2Part>
         <ItemPrice>{formatCurrency(totalPriceItems(order))}</ItemPrice>
         <TrashButton onClick={deleteOrder}/>
-      </OrderItemStyled>
-      {toppingSum && <ToppingsStyled>
+        {toppingSum && <ToppingsStyled>
         {toppingSum}
       </ToppingsStyled>}
+      </OrderItemStyled>
     </>
   );
 }
