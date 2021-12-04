@@ -39,7 +39,7 @@ const ToppingsStyled = styled.div`
 `;
 
 const Item2Part = styled.div`
-  width: 130px;
+  width: 200px;
   display: flex;
   justify-content: space-between;
 `;
@@ -63,8 +63,10 @@ export const OrderListItem = ({ order, orders, setOrders, setOpenItem, index }) 
           <ItemName>{order.name} {order.choice}</ItemName>
           <span>{order.count}</span>
         </Item2Part>
-        <ItemPrice>{formatCurrency(totalPriceItems(order))}</ItemPrice>
-        <TrashButton onClick={deleteOrder}/>
+        <div>
+          <ItemPrice>{formatCurrency(totalPriceItems(order))}</ItemPrice>
+          <TrashButton onClick={deleteOrder} />
+        </div>
         {toppingSum && <ToppingsStyled>
         {toppingSum}
       </ToppingsStyled>}
