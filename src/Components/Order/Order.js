@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { totalPriceItems, formatCurrency } from '../Functions/secondaryFunctions';
+import { totalPriceItems, formatCurrency, projection } from '../Functions/secondaryFunctions';
 import { ButtonCheckout } from "../Style/ButtonCheckout";
 import { OrderListItem } from "./OrderListItem";
 
@@ -46,11 +46,31 @@ const EmptyList = styled.p`
   text-align: center;
 `;
 
-export const Order = ({ orders, setOrders, setOpenItem }) => {
+const rulesData = {
+  name: ['name'],
+  price: ['price'],
+  count: ['count'],
+  toppings: ['topping', arr => (arr 
+    ? (arr.filter(item => item.checked).map(item => item.name).length 
+      ? arr.filter(item => item.checked).map(item => item.name) : 'no toppings') 
+    : 'no toppings')],
+  choice: ['choice', item => item ? item : 'no choices'],
+};
+
+export const Order = ({ db, orders, setOrders, setOpenItem, authentification, logIn }) => {
 
   const total = orders.reduce((result, order) => totalPriceItems(order) + result, 0);
 
   const totalCounter = orders.reduce((result, order) => order.count + result, 0);
+
+  const onClickCheckOut = () => {
+    if (!authentification) logIn()
+    else {
+      console.log(orders);
+      const newOrder = orders.map(projection(rulesData));
+      console.log(newOrder);
+    };
+  };
 
   return(
     <OrderStyled>
@@ -76,7 +96,7 @@ export const Order = ({ orders, setOrders, setOpenItem }) => {
         <span>{totalCounter}</span>
         <TotalPrice>{formatCurrency(total)}</TotalPrice>
       </Total>
-      <ButtonCheckout>Оформить</ButtonCheckout>
+      <ButtonCheckout onClick={onClickCheckOut}>Оформить</ButtonCheckout>
     </OrderStyled>
   );
 }

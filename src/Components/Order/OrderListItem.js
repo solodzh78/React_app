@@ -38,10 +38,16 @@ const ToppingsStyled = styled.div`
   color: #9A9A9A;
 `;
 
-const Item2Part = styled.div`
+const Item1Part = styled.div`
   width: 200px;
   display: flex;
   justify-content: space-between;
+`;
+
+const Item2Part = styled.div`
+  display: flex;
+  align-content: center;
+  justify-content: flex-end;
 `;
 
 export const OrderListItem = ({ order, orders, setOrders, setOpenItem, index }) => {
@@ -59,14 +65,14 @@ export const OrderListItem = ({ order, orders, setOrders, setOpenItem, index }) 
   return(
     <>
       <OrderItemStyled onClick={orderOnclick}>
-        <Item2Part>
+        <Item1Part>
           <ItemName>{order.name} {order.choice}</ItemName>
           <span>{order.count}</span>
-        </Item2Part>
-        <div>
+        </Item1Part>
+        <Item2Part>
           <ItemPrice>{formatCurrency(totalPriceItems(order))}</ItemPrice>
           <TrashButton onClick={deleteOrder} />
-        </div>
+        </Item2Part>
         {toppingSum && <ToppingsStyled>
         {toppingSum}
       </ToppingsStyled>}
