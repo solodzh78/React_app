@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { ref, get } from "firebase/database";
+import { db } from "../Firebase/firebaseConfig";
 
 export const useFetch = () => {
 
@@ -6,6 +8,18 @@ export const useFetch = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const dbRef = ref(db, "goods");
+
+    get(dbRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        console.log(JSON.stringify(snapshot.val()));
+      } else {
+        console.log("No data available");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+
     async function fetchData() {
       try {
         const json = await fetch('DB.json');
@@ -20,3 +34,4 @@ export const useFetch = () => {
 
   return { response, error };
 };
+
