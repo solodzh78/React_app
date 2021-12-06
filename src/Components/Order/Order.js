@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { ref, set, push } from "firebase/database";
+import { db } from "../Firebase/firebaseConfig";
 import { totalPriceItems, formatCurrency, projection } from '../Functions/secondaryFunctions';
 import { ButtonCheckout } from "../Style/ButtonCheckout";
 import { OrderListItem } from "./OrderListItem";
@@ -57,20 +59,26 @@ const rulesData = {
   choice: ['choice', item => item ? item : 'no choices'],
 };
 
-export const Order = ({ db, orders, setOrders, setOpenItem, authentification, logIn }) => {
+export const Order = ({ orders, setOrders, setOpenItem, authentification, logIn }) => {
 
   const total = orders.reduce((result, order) => totalPriceItems(order) + result, 0);
 
   const totalCounter = orders.reduce((result, order) => order.count + result, 0);
 
-  const onClickCheckOut = () => {
-    if (!authentification) logIn()
-    else {
-      console.log(orders);
-      const newOrder = orders.map(projection(rulesData));
-      console.log(newOrder);
-    };
+  const sendOrder = () => {
+    const newOrder = orders.map(projection(rulesData));
+
+    const ordersListRef = ref(db, 'orders');
+
+    set(push(ordersListRef), {
+      clientName: authentification.displayName,
+      email: authentification.email,
+      order: newOrder
+    })
+    .then(setOrders([]));
   };
+
+  const onClickCheckOut = () => !authentification ? logIn() : sendOrder();
 
   return(
     <OrderStyled>

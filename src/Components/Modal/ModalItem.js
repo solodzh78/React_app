@@ -57,13 +57,15 @@ const TotalPriceItem = styled.div`
   justify-content: space-between;
 `;
 
-export const ModalItem = ({ openItem, setOpenItem, orders, setOrders}) => {
+export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
 
   const counter = useCount(openItem);
   const toppings = useToppins(openItem);
   const choices = useChoices(openItem);
-  
-  const closeModal = e => { if (e.target.id === 'overlay') setOpenItem(null) };
+
+  const closeModal = e => { 
+    if (e.target.id === 'overlay') setOpenItem(null);
+  };
 
   const order = {
     ...openItem,
