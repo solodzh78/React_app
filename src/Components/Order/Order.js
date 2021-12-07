@@ -1,15 +1,16 @@
 import styled from "styled-components";
-import { ref, set, push } from "firebase/database";
-import { db } from "../Firebase/firebaseConfig";
-import { totalPriceItems, formatCurrency, projection } from '../Functions/secondaryFunctions';
+import { useContext } from "react";
+import { Context } from "../Functions/context";
+import { totalPriceItems, formatCurrency } from '../Functions/secondaryFunctions';
 import { ButtonCheckout } from "../Style/ButtonCheckout";
+import { OrderTitle, Total, TotalPrice,  } from "../Style/ItemsForModal";
 import { OrderListItem } from "./OrderListItem";
 
 const OrderStyled = styled.section`
   position: fixed;
   display: flex;
   flex-direction: column;
-  top: 80px;
+  top: 80px;export 
   left: 0;
   background-color: white;
   width: 380px;
@@ -18,71 +19,34 @@ const OrderStyled = styled.section`
   padding: 20px;
 `;
 
-const OdrerTitle = styled.h2`
-  text-align: center
-`;
-
 const OrderContent = styled.div`
   flex-grow: 1;
 `;
 
-const OrderList = styled.ul`
-
-`;
-
-const Total = styled.div`
-  display: flex;
-  margin: 0 35px 30px;
-  & span:first-child {
-    flex-grow: 1;
-  }
-`;
-
-const TotalPrice = styled.span`
-  text-align: right;
-  min-width: 65px;
-  margin-left: 20px;
-`;
+const OrderList = styled.ul``;
 
 const EmptyList = styled.p`
   text-align: center;
 `;
 
-const rulesData = {
-  name: ['name'],
-  price: ['price'],
-  count: ['count'],
-  toppings: ['topping', arr => (arr 
-    ? (arr.filter(item => item.checked).map(item => item.name).length 
-      ? arr.filter(item => item.checked).map(item => item.name) : 'no toppings') 
-    : 'no toppings')],
-  choice: ['choice', item => item ? item : 'no choices'],
-};
+export const Order = () => {
 
-export const Order = ({ orders, setOrders, setOpenItem, authentification, logIn }) => {
+  const { 
+    orders: { orders, setOrders }, 
+    openItem: { setOpenItem },
+    auth: { authentification, logIn },
+    orderConfirm: { setOpenOrderConfirm }
+  } = useContext(Context);
 
   const total = orders.reduce((result, order) => totalPriceItems(order) + result, 0);
 
   const totalCounter = orders.reduce((result, order) => order.count + result, 0);
 
-  const sendOrder = () => {
-    const newOrder = orders.map(projection(rulesData));
-
-    const ordersListRef = ref(db, 'orders');
-
-    set(push(ordersListRef), {
-      clientName: authentification.displayName,
-      email: authentification.email,
-      order: newOrder
-    })
-    .then(setOrders([]));
-  };
-
-  const onClickCheckOut = () => !authentification ? logIn() : sendOrder();
+  const onClickCheckOut = () => !authentification ? logIn() : setOpenOrderConfirm(true);
 
   return(
     <OrderStyled>
-      <OdrerTitle>ВАШ ЗАКАЗ</OdrerTitle>
+      <OrderTitle>ВАШ ЗАКАЗ</OrderTitle>
       <OrderContent>
         {orders.length ?
         <OrderList>
@@ -99,12 +63,16 @@ export const Order = ({ orders, setOrders, setOpenItem, authentification, logIn 
         </OrderList> :
         <EmptyList>Список заказов пуст</EmptyList>}
       </OrderContent>
-      <Total>
-        <span>Итого</span>
-        <span>{totalCounter}</span>
-        <TotalPrice>{formatCurrency(total)}</TotalPrice>
-      </Total>
-      <ButtonCheckout onClick={onClickCheckOut}>Оформить</ButtonCheckout>
+      {orders.length > 0 &&
+        <>
+          <Total>
+            <span>Итого</span>
+            <span>{totalCounter}</span>
+            <TotalPrice>{formatCurrency(total)}</TotalPrice>
+          </Total>
+          <ButtonCheckout onClick={onClickCheckOut}>Оформить</ButtonCheckout>
+        </>
+      }
     </OrderStyled>
   );
 }

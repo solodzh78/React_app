@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { useContext } from "react";
+import { Context } from "../Functions/context";
 import { ListItem } from "./ListItem";
 import { Banner } from "./Banner";
 import { useFetch } from "../Hooks/useFetch";
@@ -23,8 +25,8 @@ const PreloaderMenu = styled.div`
   height: calc(100vh - 210px - 80px);
 `;
 
-export const Menu = ({ setOpenItem }) => {
-  
+export const Menu = () => {
+  const { openItem: { setOpenItem } } = useContext(Context);
   const res = useFetch();
   const dbMenu = res.response;
   

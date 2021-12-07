@@ -1,4 +1,6 @@
+import { useContext } from "react/cjs/react.development";
 import styled from "styled-components";
+import { ContextItem } from "../Functions/contextItem";
 
 
 const limitCount = item => {
@@ -22,7 +24,9 @@ const ButtonCount = styled.button`
   background-color: transparent;
 `;
 
-export function CountItem({ count, setCount, onChange }) {
+export function CountItem() {
+
+  const { counter: { count, setCount, onChange } } = useContext(ContextItem);
 
   return (
     <CountWrapper>

@@ -16,4 +16,3 @@ export const projection = rules => {
       return newObj;
     }, {});
 };
-

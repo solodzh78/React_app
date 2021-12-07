@@ -14,12 +14,10 @@ export function useAuth() {
       console.log(result.user);
       return result.user.displayName;
     })
-    .then(userName => console.log(`Пользователь ${userName} успешно авторизован`))
     .catch(err => console.error(err.code));
 
   const logOut = () => signOut(auth)
     .then(setAuthentification(null))
-    .then(console.log("Авторизация успешно отменена"))
     .catch(err => console.error(err.code));
 
   return { authentification, logIn, logOut };
