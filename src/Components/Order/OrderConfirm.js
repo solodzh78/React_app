@@ -70,6 +70,7 @@ export const OrderConfirm = () => {
           onClick={() => {
             if (thanks) {
               setOpenOrderConfirm(false);
+              thanks = false;
             } else {
               sendOrder(db, orders, authentification);
               setOrders([]);
