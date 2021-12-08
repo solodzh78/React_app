@@ -53,6 +53,7 @@ const TotalPriceItem = styled.div`
 export const ModalItem = () => {
 
   const { openItem: { openItem, setOpenItem }, orders: { orders, setOrders } } = useContext(Context);
+  
   const counter = useCount(openItem);
   const toppings = useToppins(openItem);
   const choices = useChoices(openItem);

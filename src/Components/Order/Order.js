@@ -32,8 +32,7 @@ const EmptyList = styled.p`
 export const Order = () => {
 
   const { 
-    orders: { orders, setOrders }, 
-    openItem: { setOpenItem },
+    orders: { orders }, 
     auth: { authentification, logIn },
     orderConfirm: { setOpenOrderConfirm }
   } = useContext(Context);
@@ -54,16 +53,13 @@ export const Order = () => {
             <OrderListItem 
               key={index}
               index={index}
-              orders={orders} 
-              setOrders={setOrders} 
               order={item}
-              setOpenItem={setOpenItem}
             />))
           }
         </OrderList> :
         <EmptyList>Список заказов пуст</EmptyList>}
       </OrderContent>
-      {orders.length > 0 &&
+      {orders.length ?
         <>
           <Total>
             <span>Итого</span>
@@ -71,7 +67,8 @@ export const Order = () => {
             <TotalPrice>{formatCurrency(total)}</TotalPrice>
           </Total>
           <ButtonCheckout onClick={onClickCheckOut}>Оформить</ButtonCheckout>
-        </>
+        </>:
+        null
       }
     </OrderStyled>
   );

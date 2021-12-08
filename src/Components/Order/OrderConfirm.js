@@ -40,6 +40,8 @@ const sendOrder = (db, orders, authentification) => {
   });
 };
 
+let thanks = false;
+
 export const OrderConfirm = () => {
 
   const { 
@@ -54,21 +56,26 @@ export const OrderConfirm = () => {
     if (e.target.id === 'overlay') setOpenOrderConfirm(false);
   };
 
+
   return (
     <Overlay id="overlay" onClick={closeModal}>
       <Modal>
         <OrderTitle>{authentification.displayName}</OrderTitle>
-        <Text>Осталось только подтвердить ваш заказ</Text>
-        <Total>
+        <Text>{thanks ? 'Спасибо за заказ!' : "Осталось только подтвердить ваш заказ"}</Text>
+        {!thanks && <Total>
           <span>Итого</span>
           <TotalPrice>{formatCurrency(total)}</TotalPrice>
-        </Total>
+        </Total>}
         <ButtonCheckout
           onClick={() => {
-            sendOrder(db, orders, authentification);
-            setOrders([]);
-            setOpenOrderConfirm(false)
-          }}>Подтвердить</ButtonCheckout>
+            if (thanks) {
+              setOpenOrderConfirm(false);
+            } else {
+              sendOrder(db, orders, authentification);
+              setOrders([]);
+              thanks = true;
+            }
+          }}>{thanks ? 'Ок' : "Подтвердить"}</ButtonCheckout>
       </Modal>
     </Overlay>
   );

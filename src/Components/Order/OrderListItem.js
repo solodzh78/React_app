@@ -1,5 +1,7 @@
+import { useContext } from "react/cjs/react.development";
 import styled from "styled-components";
 import trashImg from '../../image/trash.svg';
+import { Context } from "../Functions/context";
 import { totalPriceItems, formatCurrency } from '../Functions/secondaryFunctions';
 
 const OrderItemStyled = styled.li`
@@ -50,7 +52,9 @@ const Item2Part = styled.div`
   justify-content: flex-end;
 `;
 
-export const OrderListItem = ({ order, orders, setOrders, setOpenItem, index }) => {
+export const OrderListItem = ({ order, index }) => {
+
+  const { orders: { orders, setOrders }, openItem: { setOpenItem } } = useContext(Context);
 
   const deleteOrder = () => { setOrders(orders.filter(item => item !== order)) };
 

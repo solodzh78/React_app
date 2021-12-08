@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import { useContext } from "react";
-import { Context } from "../Functions/context";
 import { ListItem } from "./ListItem";
 import { Banner } from "./Banner";
 import { useFetch } from "../Hooks/useFetch";
@@ -26,7 +24,6 @@ const PreloaderMenu = styled.div`
 `;
 
 export const Menu = () => {
-  const { openItem: { setOpenItem } } = useContext(Context);
   const res = useFetch();
   const dbMenu = res.response;
   
@@ -40,7 +37,6 @@ export const Menu = () => {
               <h2>Бургеры</h2>
               <ListItem
                 itemList={dbMenu.burger}
-                setOpenItem={setOpenItem}
               />
             </SectionMenu>
 
@@ -48,7 +44,6 @@ export const Menu = () => {
               <h2>Закуски / Напитки</h2>
               <ListItem
                 itemList={dbMenu.other}
-                setOpenItem={setOpenItem}
               />
             </SectionMenu>
           </>
