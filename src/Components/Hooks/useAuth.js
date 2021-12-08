@@ -11,7 +11,6 @@ export function useAuth() {
   const logIn = () => signInWithPopup(auth, provider)
     .then(result => {
       setAuthentification(result.user);
-      console.log(result.user);
       return result.user.displayName;
     })
     .catch(err => console.error(err.code));
