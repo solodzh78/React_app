@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from "styled-components";
 import { ButtonCheckout } from '../Style/ButtonCheckout';
 import { CountItem } from './CountItem';
@@ -9,7 +9,6 @@ import { Choices } from './Choices';
 import { useToppins } from '../Hooks/useTopping';
 import { useChoices } from '../Hooks/useChoices';
 import { Overlay } from '../Style/ItemsForModal';
-import { useContext } from 'react/cjs/react.development';
 import { Context } from '../Functions/context';
 import { ContextItem } from '../Functions/contextItem';
 

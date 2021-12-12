@@ -4,7 +4,7 @@ import { ButtonCheckout } from "../Style/ButtonCheckout";
 import { totalPriceItems, formatCurrency, projection } from '../Functions/secondaryFunctions';
 import { ref, set, push } from "firebase/database";
 import { db } from "../Firebase/firebaseConfig";
-import { useContext } from "react/cjs/react.development";
+import { useContext } from "react";
 import { Context } from "../Functions/context";
 
 const Modal = styled.div`
